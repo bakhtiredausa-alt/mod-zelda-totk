@@ -1,0 +1,671 @@
+import random
+import time
+
+def question():
+    a = random.randint(1, 20)
+    b = random.randint(1, 20)
+    op = random.choice(["+", "-", "*"])
+
+    if op == "+":
+        answer = a + b
+    elif op == "-":
+        answer = a - b
+    else:
+        answer = a * b
+
+    print(f"Résous : {a} {op} {b}")
+    user = int(input("Ta réponse : "))
+
+    if user == answer:
+        print("✅ Correct ! Récompense : +2 plats")
+    else:
+        print("❌ Faux ! Malus : Ganon arrive 😈")
+
+while True:
+    time.sleep(300)  # toutes les 5 minutes
+    question()import random
+
+def reward():
+    events = [
+        "✅ +2 plats",
+        "🔥 Invincibilité 10 sec",
+        "💀 Perds ton arme",
+        "😈 Ganon arrive",
+        "⚡ Heal complet"
+    ]
+    print("Événement :", random.choice(events))import random
+import time
+
+combo = 0
+
+def generate_question():
+    ops = ["+", "-", "*"]
+    op = random.choice(ops)
+
+    a = random.randint(1, 30)
+    b = random.randint(1, 30)
+
+    if op == "+":
+        answer = a + b
+    elif op == "-":
+        answer = a - b
+    else:
+        answer = a * b
+
+    return f"{a} {op} {b}", answer
+
+def reward():
+    rewards = [
+        "🍗 +1 plat",
+        "🍗 +2 plats",
+        "⚡ Heal complet",
+        "🔥 Invincibilité 10 sec"
+    ]
+    print("🎁 Récompense :", random.choice(rewards))
+
+def punishment():
+    punishments = [
+        "💀 Perds ton arme",
+        "😈 Ganon arrive",
+        "🚫 Pas courir 2 min",
+        "👊 Combat à mains nues"
+    ]
+    print("❌ Malus :", random.choice(punishments))
+
+def ask_question():
+    global combo
+
+    q, ans = generate_question()
+    print("\n🧠 QUESTION :", q)
+
+    start = time.time()
+    try:
+        user = int(input("Réponse : "))
+    except:
+        print("❌ Réponse invalide")
+        punishment()
+        combo = 0
+        return
+
+    if time.time() - start > 10:
+        print("⏱️ Trop lent !")
+        punishment()
+        combo = 0
+        return
+
+    if user == ans:
+        print("✅ Correct !")
+        combo += 1
+        reward()
+
+        if combo == 3:
+            print("🔥 COMBO x3 → Heal")
+        elif combo == 5:
+            print("⚡ COMBO x5 → Mode Dieu 30 sec")
+        elif combo == 10:
+            print("👑 COMBO x10 → Annule une mort")
+
+    else:
+        print("❌ Faux !")
+        punishment()
+        combo = 0
+
+def random_event():
+    events = [
+        "🌪️ Malédiction aléatoire",
+        "🎲 Roue du destin",
+        "😈 PANIC MODE (question rapide)",
+        "💀 Ganon te traque"
+    ]
+    print("\n⚠️ Événement :", random.choice(events))
+
+print("🔥 MODE MATH NIGHTMARE ACTIVÉ 🔥")
+
+while True:
+    time.sleep(300)  # 5 minutes
+    ask_question()
+    random_event()def ganon_drop_event():
+    print("\n💀 ÉVÉNEMENT ULTIME : CHUTE + GANON")
+
+    outcomes = [
+        "⬇️ Tu tombes au sol → perte d'arme",
+        "😈 Ganon apparaît immédiatement",
+        "⚔️ Combat forcé instantané",
+        "💥 Tu perds 1 cœur (IRL règle)"
+    ]
+
+    print(random.choice(outcomes))def punishment():
+    roll = random.randint(1, 3)
+
+    if roll == 3:
+        ganon_drop_event()
+    else:
+        punishments = [
+            "💀 Perds ton arme",
+            "🚫 Pas courir 2 min",
+            "👊 Combat à mains nues"
+        ]
+        print("❌ Malus :", random.choice(punishments))time.sleep(12)import random
+import time
+
+# =========================
+# ÉTAT DU JOUEUR
+# =========================
+combo = 0
+inventory_food = 2
+weapon = 1
+dead = False
+
+
+# =========================
+# QUESTIONS MATHS
+# =========================
+def generate_question():
+    op = random.choice(["+", "-", "*"])
+    a = random.randint(1, 30)
+    b = random.randint(1, 30)
+
+    if op == "+":
+        answer = a + b
+    elif op == "-":
+        answer = a - b
+    else:
+        answer = a * b
+
+    return f"{a} {op} {b}", answer
+
+
+# =========================
+# RÉCOMPENSES
+# =========================
+def reward():
+    global inventory_food
+
+    rewards = [
+        "⚡ Heal complet",
+        "🔥 Invincibilité temporaire",
+        "🍗 +1 nourriture",
+        "🍗 +2 nourriture"
+    ]
+
+    result = random.choice(rewards)
+    print("🎁", result)
+
+    if "nourriture" in result:
+        inventory_food += random.randint(1, 2)
+
+
+# =========================
+# GANON EVENT
+# =========================
+def ganon_event():
+    print("\n💀 GANON APPARAÎT !!!")
+    print("⚔️ Combat forcé !")
+
+
+# =========================
+# MALUS
+# =========================
+def punishment():
+    global weapon, inventory_food
+
+    roll = random.randint(1, 4)
+
+    if roll == 4:
+        ganon_event()
+        return
+
+    punishments = [
+        "💀 Perte de nourriture",
+        "🚫 Interdiction de courir (IRL règle)",
+        "👊 Combat à mains nues",
+        "⚔️ Perte d'arme"
+    ]
+
+    p = random.choice(punishments)
+    print("❌", p)
+
+    if "nourriture" in p:
+        inventory_food = max(0, inventory_food - 1)
+
+    if "arme" in p:
+        weapon = 1
+
+
+# =========================
+# COMBO SYSTEM
+# =========================
+def check_combo():
+    global combo
+
+    if combo == 3:
+        print("🔥 COMBO x3 → Bonus heal")
+    elif combo == 5:
+        print("⚡ COMBO x5 → Mode boost")
+    elif combo == 10:
+        print("👑 COMBO x10 → Annule une mort")
+
+
+# =========================
+# QUESTION MATHS
+# =========================
+def ask_question():
+    global combo
+
+    q, ans = generate_question()
+
+    print("\n🧠 QUESTION :", q)
+
+    start = time.time()
+
+    try:
+        user = int(input("Réponse : "))
+    except:
+        print("❌ Erreur input")
+        punishment()
+        combo = 0
+        returnimport random
+import time
+
+# =========================
+# ÉTAT GLOBAL
+# =========================
+combo = 0
+difficulty = 1
+inventory_food = 2
+weapon_durability = 1
+ganon_pressure = 0
+world_corruption = 0
+
+
+# =========================
+# QUESTION MATHS
+# =========================
+def generate_question():
+    max_n = 10 + difficulty * 6 + world_corruption
+
+    a = random.randint(1, max_n)
+    b = random.randint(1, max_n)
+    op = random.choice(["+", "-", "*"])
+
+    if op == "+":
+        ans = a + b
+    elif op == "-":
+        ans = a - b
+    else:
+        ans = a * b
+
+    return f"{a} {op} {b}", ans
+
+
+# =========================
+# GANON AI (PRESSURE SYSTEM)
+# =========================
+def ganon_ai():
+    global ganon_pressure, difficulty
+
+    ganon_pressure += random.randint(1, 3)
+
+    if ganon_pressure >= 5:
+        print("\n💀 GANON TE TRAQUE ACTIVEMENT 💀")
+        difficulty += 2
+        ganon_pressure = 0
+
+
+# =========================
+# CORRUPTION DU MONDE
+# =========================
+def corrupt_world():
+    global world_corruption
+
+    world_corruption += 1
+
+    effects = [
+        "🌪️ monde instable",
+        "💀 HUD corrompu",
+        "⚡ règles modifiées",
+        "🧠 questions plus difficiles"
+    ]
+
+    print("☠️ CORRUPTION :", random.choice(effects))
+
+
+# =========================
+# RÉCOMPENSES
+# =========================
+def reward():
+    global inventory_food, difficulty
+
+    r = random.choice([
+        "🍗 + nourriture",
+        "⚡ heal",
+        "🔥 invincibilité",
+        "🧠 stabilité mentale"
+    ])
+
+    print("🎁", r)
+
+    if "nourriture" in r:
+        inventory_food += random.randint(1, 2)
+
+    if "stabilité mentale" in r:
+        difficulty = max(1, difficulty - 1)
+
+
+# =========================
+# MALUS ULTIME
+# =========================
+def punishment():
+    global weapon_durability, difficulty
+
+    roll = random.randint(1, 6)
+
+    if roll == 6:
+        print("\n💀💀 GANON SPAWN IMMÉDIAT 💀💀")
+        difficulty += 3
+        return
+
+    effects = [
+        "⚔️ arme perd durabilité",
+        "🚫 immobilité",
+        "👊 combat mains nues",
+        "🍗 perte nourriture",
+        "🌪️ corruption monde"
+    ]
+
+    e = random.choice(effects)
+    print("❌", e)
+
+    if "arme" in e:
+        weapon_durability -= 1
+
+    if weapon_durability <= 0:
+        print("💥 arme détruite")
+        weapon_durability = 1
+
+    difficulty += 1
+    corrupt_world()
+
+
+# =========================
+# COMBO SYSTEM
+# =========================
+def combo_check():
+    global combo
+
+    if combo == 3:
+        print("🔥 combo x3 → heal")
+    if combo == 5:
+        print("⚡ combo x5 → slow Ganon")
+    if combo == 10:
+        print("👑 combo x10 → annule corruption")
+
+
+# =========================
+# QUESTION SYSTEM
+# =========================
+def ask_question():
+    global combo
+
+    q, ans = generate_question()
+    print("\n🧠", q)
+
+    start = time.time()
+
+    try:
+        user = int(input("Réponse : "))
+    except:
+        print("❌ erreur")
+        punishment()
+        combo = 0
+        return
+
+    if time.time() - start > max(3, 10 - difficulty):
+        print("⏱️ trop lent")
+        punishment()
+        combo = 0
+        return
+
+    if user == ans:
+        print("✅ correct")
+        combo += 1
+        reward()
+        combo_check()
+    else:
+        print("❌ faux")
+        punishment()
+        combo = 0
+
+
+# =========================
+# GAME LOOP
+# =========================
+print("🔥 ZELDA BRAIN NIGHTMARE V3 (FINAL CHAOS) 🔥")
+
+while True:
+    time.sleep(max(1, 300 // difficulty))
+
+    ask_question()
+    ganon_ai()
+
+    if time.time() - start > 10:
+        print("⏱️ Trop lent !")
+        punishment()
+        combo = 0
+        return
+
+    if user == ans:
+        print("✅ Correct !")
+        combo += 1
+        reward()
+        check_combo()
+
+    else:
+        print("❌ Faux !")
+        punishment()
+        combo = 0
+
+
+# =========================
+# ÉVÉNEMENT CHAOS (toutes les 5 min)
+# =========================
+def chaos_event():
+    events = [
+        "🌪️ Malédiction aléatoire",
+        "🎲 Roue du destin",
+        "😈 Ganon te traque",
+        "💀 Zone dangereuse activée"
+    ]
+    print("\n⚠️ ÉVÉNEMENT :", random.choice(events))
+
+
+# =========================
+# LOOP PRINCIPALE
+# =========================
+print("🔥 ZELDA BRAIN NIGHTMARE MODE ACTIVÉ 🔥")
+
+while True:
+    time.sleep(300)  # 5 minutes
+
+    ask_question()
+    chaos_event()
+ganon_drop_event()import random
+import time
+
+# =========================
+# ÉTAT GLOBAL
+# =========================
+combo = 0
+difficulty = 1
+inventory_food = 2
+weapon = 1
+ganon_timer = 0
+
+
+# =========================
+# QUESTIONS MATHS
+# =========================
+def generate_question():
+    global difficulty
+
+    max_num = 10 + difficulty * 5
+
+    op = random.choice(["+", "-", "*"])
+    a = random.randint(1, max_num)
+    b = random.randint(1, max_num)
+
+    if op == "+":
+        ans = a + b
+    elif op == "-":
+        ans = a - b
+    else:
+        ans = a * b
+
+    return f"{a} {op} {b}", ans
+
+
+# =========================
+# RÉCOMPENSES
+# =========================
+def reward():
+    global inventory_food, difficulty
+
+    rewards = [
+        "⚡ Heal",
+        "🔥 Invincibilité courte",
+        "🍗 + nourriture",
+        "🧠 réduction difficulté (rare)"
+    ]
+
+    r = random.choice(rewards)
+    print("🎁", r)
+
+    if "nourriture" in r:
+        inventory_food += random.randint(1, 2)
+
+    if "réduction difficulté" in r:
+        difficulty = max(1, difficulty - 1)
+
+
+# =========================
+# GANON SYSTEM
+# =========================
+def spawn_ganon():
+    print("\n💀💀 GANON APPARAÎT 💀💀")
+    print("⚔️ Combat forcé !")
+
+
+# =========================
+# MALUS CHAOS
+# =========================
+def punishment():
+    global weapon, inventory_food, difficulty
+
+    if random.randint(1, 5) == 5:
+        spawn_ganon()
+        difficulty += 2
+        return
+
+    effects = [
+        "💀 perte nourriture",
+        "🚫 interdiction de courir",
+        "👊 combat mains nues",
+        "⚔️ arme cassée",
+        "🌪️ malédiction zone active"
+    ]
+
+    e = random.choice(effects)
+    print("❌", e)
+
+    if "nourriture" in e:
+        inventory_food = max(0, inventory_food - 1)
+
+    if "arme" in e:
+        weapon = 1
+
+    difficulty += 1
+
+
+# =========================
+# COMBO SYSTEM
+# =========================
+def combo_check():
+    global combo
+
+    if combo == 3:
+        print("🔥 combo x3 → bonus heal")
+    elif combo == 5:
+        print("⚡ combo x5 → boost")
+    elif combo == 10:
+        print("👑 combo x10 → annule 1 mort")
+
+
+# =========================
+# QUESTION SYSTEM
+# =========================
+def ask_question():
+    global combo, difficulty
+
+    q, ans = generate_question()
+    print("\n🧠 QUESTION :", q)
+
+    start = time.time()
+
+    try:
+        user = int(input("Réponse : "))
+    except:
+        print("❌ erreur")
+        punishment()
+        combo = 0
+        return
+
+    if time.time() - start > 8:
+        print("⏱️ trop lent")
+        punishment()
+        combo = 0
+        return
+
+    if user == ans:
+        print("✅ correct")
+        combo += 1
+        reward()
+        combo_check()
+    else:
+        print("❌ faux")
+        punishment()
+        combo = 0
+
+
+# =========================
+# CHAOS GLOBAL EVENTS	
+# =========================
+def chaos_event():
+    global ganon_timer, difficulty
+
+    events = [
+        "🌪️ zone maudite activée",
+        "🎲 roue du destin",
+        "😈 Ganon te traque",
+        "⚡ double malédiction"
+    ]
+
+    print("\n⚠️ EVENT :", random.choice(events))
+
+    difficulty += 1
+    ganon_timer += 1
+
+    if ganon_timer >= 2:
+        spawn_ganon()
+        ganon_timer = 0
+
+
+# =========================
+# GAME LOOP
+# =========================
+print("🔥 ZELDA BRAIN NIGHTMARE V2 ACTIVÉ 🔥")
+
+while True:
+    time.sleep(300 // difficulty)  # plus tu progresses, plus ça accélère
+
+    ask_question()
+    chaos_event()
